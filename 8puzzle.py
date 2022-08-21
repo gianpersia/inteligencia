@@ -123,6 +123,12 @@ def anchura(inicial, meta):
         else:                                           #Si no es una meta, 
             frontera.extend(nodo.encontrar_sucesores()) #se agregan sus sucesores a los nodos por explorar.
 
+def random():
+    print("funcion random")
+
+def bidireccional():
+    print("bidireccional")
+
 #Función main.
 def main():
     for i in range (50):
@@ -151,6 +157,10 @@ def main():
     if algoritmo == "ANCHURA" or algoritmo == "anchura":
         print("Corriendo ANCHURA. Por favor espere.")
         nodos_camino = anchura(estado_inicial, estado_final)
+    elif algoritmo == "RANDOM" or algoritmo == "random":
+        print("Corriendo RANDOM. Por favor espere.")
+    elif algoritmo == "BIDIRECCIONAL" or algoritmo == "bidireccional":
+        print("Corriendo BIDIRECCIONAL. Por favor espere.")
     else:
         return 0
 
