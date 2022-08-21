@@ -1,6 +1,4 @@
 from collections import deque
-from unicodedata import bidirectional
-from random import shuffle
 
 #Clase que define un nodo en el 8-puzzle.
 class Nodo:
@@ -103,8 +101,8 @@ def calcular_heurisitica(estado):
             valor_correcto += 1
     return piezas_correctas   
 
-#Algoritmo Breadth First Search(anchura).
-def anchura(inicial, meta):
+#Algoritmo Breadth First Search.
+def bfs(inicial, meta):
     visitados = set()   #Conjunto de estados visitados para no visitar el mismo estado más de una vez.
     frontera = deque()  #Cola de nodos aún por explorar. Se agrega el nodo inicial.  
     frontera.append(Nodo(inicial, None, None, 0, calcular_heurisitica(inicial)))
@@ -123,17 +121,63 @@ def anchura(inicial, meta):
         else:                                           #Si no es una meta, 
             frontera.extend(nodo.encontrar_sucesores()) #se agregan sus sucesores a los nodos por explorar.
 
+#Algoritmo Depth First Search.
+def dfs(inicial, meta, profundidad_max):
+    visitados = set()   #Conjunto de estados visitados para no visitar el mismo estado más de una vez.
+    frontera = deque()  #Pila de nodos aún por explorar. Se agrega el nodo inicial.
+    frontera.append(Nodo(inicial, None, None, 0, calcular_heurisitica(inicial)))
+    
+    while frontera:                         #Mientras haya nodos por explorar:
+        nodo = frontera.pop()               #Se toma el primer nodo de la pila.
+
+        if nodo.estado not in visitados:    #Si no se había visitado, 
+            visitados.add(nodo.estado)      #se agrega al conjunto de visitados.
+        else:                               #Si ya se visitó,
+            continue                        #se ignora.
+        
+        if nodo.estado == meta:             #Si es una meta, se regresa el camino para llegar a él y termina el algoritmo.
+            print("\n¡Se encontró la meta!")            
+            return nodo.encontrar_camino(inicial)
+        else:                               #Si no es una meta:             
+            if profundidad_max > 0:                             #Si se estableció una búsqueda con profundidad limitada
+                if nodo.profundidad < profundidad_max:          #y no se ha llegado al límite,                 
+                    frontera.extend(nodo.encontrar_sucesores()) #se agregan los sucesores a los nodos por explorar.
+            else:                                               #Si no se estableció una búsqueda con profundidad limitada,
+                frontera.extend(nodo.encontrar_sucesores())     #se agregan los sucesores a los nodos por explorar.
+
+#Algoritmo Hill Climbing.
+def hc(inicial):
+    visitados = set()  #Conjunto de estados visitados para no visitar el mismo estado más de una vez.
+    nodo_actual = Nodo(inicial, None, None, 0, calcular_heurisitica(inicial))
+
+    while nodo_actual.piezas_correctas < 9:             #Mientras el estado actual no tenga todas las piezas en su lugar:
+        sucesores = nodo_actual.encontrar_sucesores()   #Se buscan los sucesores del estado actual
+        max_piezas_correctas = -1
+
+        #Para cada nodo en los sucesores, se busca el que tenga más piezas en su lugar.
+        for nodo in sucesores:   
+            if nodo.piezas_correctas >= max_piezas_correctas and nodo not in visitados:
+                max_piezas_correctas = nodo.piezas_correctas
+                nodo_siguiente = nodo
+
+            visitados.add(nodo_actual)
+
+        #Si el nodo encontrado tiene más piezas en su lugar que el nodo actual, 
+        #se asigna como nodo actual para repetir la búsqueda sobre éste.
+        if nodo_siguiente.piezas_correctas >= nodo_actual.piezas_correctas:
+            nodo_actual = nodo_siguiente
+        #Si no, significa que se llegó a un máximo local y el algoritmo no debe seguir.
+        else:
+            print("\nSe llegó a un máximo local. No se encontró la meta.")
+            break
+    else:
+        print("\n¡Se encontró la meta!")        
+    return nodo_actual.encontrar_camino(inicial)
+
 #Función main.
 def main():
-    for i in range (50):
-        lista = list(range(9))
-        shuffle(lista)
-        #print(lista) #con este comando mostramos las 50 mezclas
-    
-    lista1=tuple(lista)
-
     estado_final = (1, 2, 3, 4, 5, 6, 7, 8, 0)
-    estado_inicial = lista1
+    estado_inicial = (4, 2, 1, 7, 3, 5, 0, 8, 6)
     #estado_inicial = (1, 2, 3, 4, 5, 0, 7, 8, 6)   #De este estado se puede resolver en un movimiento.
 
     #Menú principal
@@ -141,16 +185,29 @@ def main():
     print("El estado inicial del juego es: ")
     (Nodo(estado_inicial, None, None, 0, calcular_heurisitica(estado_inicial))).imprimir_nodo()
     print("\n¿Qué algoritmo desea correr? Escriba:")
-    print("\t\"ANCHURA\" para  correr Metodo de exploracion de anchura")
-    print("\t\"BIDIRECCIONAL\" para  correr Busqueda bidireccional")
-    print("\t\"RANDOM\"  para  disparar una busqueda RANDOM y contar los movimientos")
+    print("\t\"bfs\" para  correr Breadth First Search")
+    print("\t\"dfs\" para  correr Depth First Search")
+    print("\t\"hc\"  para  correr Hill Climbing")
     print("\tCualquier otra cosa para terminar el programa.")
     algoritmo = input("Su elección: ")
 
     #Selección de algoritmo
-    if algoritmo == "ANCHURA" or algoritmo == "anchura":
-        print("Corriendo ANCHURA. Por favor espere.")
-        nodos_camino = anchura(estado_inicial, estado_final)
+    if algoritmo == "bfs" or algoritmo == "BFS":
+        print("Corriendo BFS. Por favor espere.")
+        nodos_camino = bfs(estado_inicial, estado_final)
+
+    elif algoritmo == "dfs" or algoritmo == "DFS":
+        print("\n¿Establecer un límite de profundidad?")
+        print("Escriba el límite como un entero mayor que 0")
+        print("o cualquier otro entero para continuar sin límite.")
+        profundidad_max = int(input("Profundidad: "))
+        print("Corriendo DFS. Por favor espere.")
+        nodos_camino = dfs(estado_inicial, estado_final, profundidad_max)
+
+    elif algoritmo == "hc" or algoritmo == "HC":
+        print("\nCorriendo Hill Climbing. Por favor espere...")
+        nodos_camino = hc(estado_inicial)
+    
     else:
         return 0
 
