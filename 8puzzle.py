@@ -143,31 +143,31 @@ def main():
     #estado_inicial = (1, 2, 3, 4, 5, 0, 7, 8, 6)   #De este estado se puede resolver en un movimiento.
 
     #Menú principal
-    print("Este programa encuentra la solución al 8-puzzle\nutilizando diferentes algoritmos.")
-    print("El estado inicial del juego es: ")
+    print("8-PUZZLE\n")
+    print("ESTADO INICIAL: \n")
     (Nodo(estado_inicial, None, None, 0, calcular_heurisitica(estado_inicial))).imprimir_nodo()
-    print("\n¿Qué algoritmo desea correr? Escriba:")
-    print("\t\"ANCHURA\" para  correr Metodo de exploracion de anchura")
-    print("\t\"BIDIRECCIONAL\" para  correr Busqueda bidireccional")
-    print("\t\"RANDOM\"  para  disparar una busqueda RANDOM y contar los movimientos")
-    print("\tCualquier otra cosa para terminar el programa.")
-    algoritmo = input("Su elección: ")
+    print("\nSELECCIONE UN MÉTODO: \n")
+    print("\t\"1)ANCHURA\" para  correr Metodo de exploracion de anchura")
+    print("\t\"2)BIDIRECCIONAL\" para  correr Busqueda bidireccional")
+    print("\t\"3)RANDOM\"  para  disparar una busqueda RANDOM y contar los movimientos\n")
+    print("\tCualquier otra cosa para terminar el programa.\n")
+    algoritmo = input("SELECCIÓN: ")
 
     #Selección de algoritmo
-    if algoritmo == "ANCHURA" or algoritmo == "anchura":
+    if algoritmo == "1" or algoritmo == "1":
         print("Corriendo ANCHURA. Por favor espere.")
         nodos_camino = anchura(estado_inicial, estado_final)
-    elif algoritmo == "RANDOM" or algoritmo == "random":
+    elif algoritmo == "3" or algoritmo == "3":
         print("Corriendo RANDOM. Por favor espere.")
-    elif algoritmo == "BIDIRECCIONAL" or algoritmo == "bidireccional":
+    elif algoritmo == "2" or algoritmo == "2":
         print("Corriendo BIDIRECCIONAL. Por favor espere.")
     else:
         return 0
 
     #Se imprime el camino si existe y si el usuario lo desea.
     if nodos_camino:
-        print ("El camino tiene", len(nodos_camino), "movimientos.")
-        imprimir_camino = (input ("¿Desea imprimir dicho camino? s/n: "))
+        print ("SE LLEGÓ A LA SOLUCIÓN EN", len(nodos_camino), "MOVIMIENTOS.")
+        imprimir_camino = (input ("¿VER MOVIMIENTOS? s/n: "))
 
         if imprimir_camino == "s" or imprimir_camino == "S":
             print("\nEstado inicial:")
