@@ -103,7 +103,7 @@ def calcular_heurisitica(estado):
             valor_correcto += 1
     return piezas_correctas   
 
-#Algoritmo Breadth First Search(anchura).
+#Algoritmo de anchura.
 def anchura(inicial, meta):
     visitados = set()   #Conjunto de estados visitados para no visitar el mismo estado más de una vez.
     frontera = deque()  #Cola de nodos aún por explorar. Se agrega el nodo inicial.  
@@ -124,6 +124,8 @@ def anchura(inicial, meta):
             frontera.extend(nodo.encontrar_sucesores()) #se agregan sus sucesores a los nodos por explorar.
 
 def random():
+    #for i in range (50):
+        #zeroPosition = lista1(index(0))
     print("funcion random")
 
 def bidireccional():
@@ -132,7 +134,7 @@ def bidireccional():
 #Función main.
 def main():
     for i in range (50):
-        lista = list(range(9))
+        lista = list(range(9))  
         shuffle(lista)
         #print(lista) #con este comando mostramos las 50 mezclas
     
