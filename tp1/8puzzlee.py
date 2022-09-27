@@ -1,61 +1,62 @@
-import random
-import time
 import os
+import time
+import random
 
+lista_inicial = []
 
-visitados = []
+#a continuacion se procede a definir los diferentes
+#tipos de movimientos posibles
+#derecha, izquierda, arriba y abajo
 
-def moveUp(puzzle, ind):
-   if ind - 3 >= 0:
-      aux = puzzle[ind - 3]
-      puzzle[ind - 3] = puzzle[ind]
-      puzzle[ind] = aux
+def der(puzzle, indexado):
+   if indexado % 3 < 2:
+      respaldo = puzzle[indexado + 1]
+      puzzle[indexado + 1] = puzzle[indexado]
+      puzzle[indexado] = respaldo
+      return puzzle
+      
+def izq(puzzle, indexado):
+   if indexado % 3 > 0:
+      respaldo = puzzle[indexado - 1]
+      puzzle[indexado - 1] = puzzle[indexado]
+      puzzle[indexado] = respaldo
+      return puzzle
+
+def arriba(puzzle, indexado):
+   if indexado - 3 >= 0:
+      respaldo = puzzle[indexado - 3]
+      puzzle[indexado - 3] = puzzle[indexado]
+      puzzle[indexado] = respaldo
       return puzzle
 
 
-def moveDown(puzzle, ind):
-   if ind + 3 < len(puzzle):
-      aux = puzzle[ind + 3]
-      puzzle[ind + 3] = puzzle[ind]
-      puzzle[ind] = aux
+def abajo(puzzle, indexado):
+   if indexado + 3 < len(puzzle):
+      respaldo = puzzle[indexado + 3]
+      puzzle[indexado + 3] = puzzle[indexado]
+      puzzle[indexado] = respaldo
       return puzzle
 
 
-def moveLeft(puzzle, ind):
-   if ind % 3 > 0:
-      aux = puzzle[ind - 1]
-      puzzle[ind - 1] = puzzle[ind]
-      puzzle[ind] = aux
-      return puzzle
-
-
-def moveRight(puzzle, ind):
-   if ind % 3 < 2:
-      aux = puzzle[ind + 1]
-      puzzle[ind + 1] = puzzle[ind]
-      puzzle[ind] = aux
-      return puzzle
-
-
-def shuffle(puzzle, ind):
+def shuffle(puzzle, indexado):
    func_list = [0, 1, 2, 3]
    while True:
       selected_func = random.choice(func_list)
       if selected_func == 0:
-         if ind - 3 >= 0:
-               puzzle = moveUp(puzzle, ind)
+         if indexado - 3 >= 0:
+               puzzle = moveUp(puzzle, indexado)
                break
       elif selected_func == 1:
-         if ind + 3 < len(puzzle):
-               puzzle = moveDown(puzzle, ind)
+         if indexado + 3 < len(puzzle):
+               puzzle = moveDown(puzzle, indexado)
                break
       elif selected_func == 2:
-         if ind % 3 > 0:
-               puzzle = moveLeft(puzzle, ind)
+         if indexado % 3 > 0:
+               puzzle = moveLeft(puzzle, indexado)
                break
       elif selected_func == 3:
-         if ind % 3 < 2:
-               puzzle = moveRight(puzzle, ind)
+         if indexado % 3 < 2:
+               puzzle = moveRight(puzzle, indexado)
                break
    return puzzle
 
