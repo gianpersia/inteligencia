@@ -36,7 +36,6 @@ def abajo(puzzle, indice):
 
 #aca se procede a establecer el menu
 def menu_usuario(puzzle):
-    os.system('clear')
     print("8-PUZZLE\n")
     print("ESTADO INICIAL:\n")
     print(f'{puzzle}\n')
@@ -68,15 +67,14 @@ def mezcla(puzzle):
             puzzle=abajo(puzzle, indice)
     return puzzle
 
-#ahora vamos a definir las funciones de busqueda
+#ahora vamos a definir las funciones de33 busqueda
 
 def anchura(puzzle, correcto):
-    tiempo_empleado_inicial=time.time()
     lista.append(puzzle)
     print(lista)
     mov=0
     i=-1
-    while 1:
+    while True:
         i+=1
         nodo=lista[i].copy()
         indice=nodo.index(0)
@@ -112,12 +110,8 @@ def anchura(puzzle, correcto):
                 break
     print("Movimientos necesarios para llegar a la solucion: \n")
     print(f'{mov}')
-    tiempo_empleado_final=time.time()
-    print("Tiempo requerido: \n")
-    print(f'{tiempo_empleado_inicial-tiempo_empleado_inicial} s')
 
 def busqueda_random(puzzle, correcto):
-    tiempo_empleado_inicial=time.time()
     print("Puzzle inicial: \n")
     print(f'{puzzle}')
     mov=0
@@ -131,15 +125,11 @@ def busqueda_random(puzzle, correcto):
             print("Puzzle final: \n")
             print(f'{puzzle}')
             break
-    tiempo_empleado_final=time.time()
-    print("Tiempo requerido: \n")
-    print(f'{tiempo_empleado_inicial-tiempo_empleado_inicial} s')
 
 #y para finalizar definimos el main
 
 def main():
     puzzle=[0, 1, 2, 3, 4, 5, 6, 7, 8]
-    og=puzzle
     correcto=[1, 2, 3, 4, 5, 6, 7, 8, 0]
 
     while True:

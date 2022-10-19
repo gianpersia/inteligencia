@@ -33,8 +33,8 @@ def aprender(aprendizaje, e0, e1, e2, sd, w0, w1, w2, iteracion, lr):
         print(f"ITERACION: {iteracion} \n")
 
         iteracion += 1
-        if iteracion==100:
-            break
+        #if iteracion==100:
+        #    break
         aprendizaje=False
         for aux in range(0,4):
             print(f"R= {aux} \n")
