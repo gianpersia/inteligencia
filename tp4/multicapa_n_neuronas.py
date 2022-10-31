@@ -1,5 +1,6 @@
 import math
 import matplotlib.pyplot as plt
+import random
 
 ##comentado tenemos la logica de este perceptron con back propagation
 """def perceptron_multicapa(xor, comb):
@@ -142,8 +143,8 @@ import matplotlib.pyplot as plt
         print("w8: ", w8n)
         print("--------------")"""
 
-def mathide(no, entradas, wpeso, outs):
-    for n in range(no):
+def mathide(neuronas, entradas, wpeso, outs):
+    for n in range(neuronas):
         x=xmath(entradas, wpeso)
         sr=srmath(x)
         outs.append(sr)
@@ -166,47 +167,71 @@ def dmath(sr, E):
     df=sr*(1-sr)*E
     return df
 
+def menu(e1, e2, sd, vias, pesosi, neuronas):
+    print(f"vias={vias}\n")
+    print(f"Neuronas={neuronas}\n")
+    print("Pesos sinopticos: ")
+    for i, peso in enumerate(pesosi):
+        print(f"{i}={peso}")
+
 def main():
     #defino listas, variables
     e1 = [0, 0, 1, 1]
     e2 = [0, 1, 0, 1]
     sd = [0, 1, 1, 0]
     vias=1
-    lr=0.1
-    es1 = []
-    es2 = []
-    es3 = []
-    es4 = []
-    pesos=[[], [], [], [], [], [], [], [], [], [], [], [], []]
+    #lr=0.1
+    neuronas=int(input("Neuronas deseadas: "))
+    pesos=math.trunc((neuronas*13)/3)
+    es = [[],[],[],[]]
+    #pesos=[[], [], [], [], [], [], [], [], [], [], [], [], []]
+    pesosi=[]
+    for i in range(pesos):
+        pesosi.append(random.uniform(1,-1))
 
     #defino el bucle para poder iterar
-    for var in range (4):
+    #for var in range (4):
         #pesos definidos en clase
-        pesosiniciales = [0.9, 0.7, 0.5, 0.3, -0.9, -1, 0.8, 0.35, 0.1, -0.23, -0.79, 0.56, 0.6]
-        no=3
-        iter=0
+        #pesosiniciales = [0.9, 0.7, 0.5, 0.3, -0.9, -1, 0.8, 0.35, 0.1, -0.23, -0.79, 0.56, 0.6]
+    pesosl=[]
+        
+    for i in range(pesos):
+        pesosl.append([+])
+        
+    menu(e1,e2,sd,vias,pesosi,neuronas)
 
-        while True:
+    lr=float(input("Learning rate deseado: "))
+    iteracionesl=int(input("Iteraciones deseadas: "))
+    iteracionestotales = 0
+    outsr=sd()
+
+    while True:
+        iteracionestotales+=1
+        for i, peso in enumerate(pesosi):
+            pesosl[i].append(peso)
+        for var in range(4):
             entradas=[vias, e1[var], e2[var]]
             outs=[]
             dwf=[]
             d=[]
             dwoc=[]
-            mathide(no, entradas, pesosiniciales, outs)
+            mathide(neuronas, entradas, pesosi, outs)
             entradas=[vias]
             for varios in outs:
                 entradas.append(varios)
-            x=xmath(entradas, pesosiniciales)
+            x=xmath(entradas, pesosi)
             sr=srmath(x)
             E=Emath(sd[var], sr)
-            if var==0:
-                es1.append(E)
-            elif var==1:
-                es2.append(E)
-            elif var==2:
-                es3.append(E)
-            elif var==3:
-                es4.append(E)
+            es[var].append(E)
+            outsr[var]=sr
+            #if var==0:
+            #    es1.append(E)
+            #elif var==1:
+            #    es2.append(E)
+            #elif var==2:
+            #    es3.append(E)
+            #elif var==3:
+            #    es4.append(E)
             df=dmath(sr, E)
             for ins in entradas:
                 dw=lr*ins*df
@@ -220,19 +245,21 @@ def main():
             for varios in dwf:
                 d.append(varios)
             for i, delta in enumerate(d):
-                if len(pesos[i])<10000:
-                    pesos[i].append(pesosiniciales[i])
-                pesosiniciales[i]=pesosiniciales[i]+delta
-            iter+=1
-            if iter==10000:
-                break
+                pesosi[i]=pesosi[i] + delta
+                #if len(pesos[i])<10000:
+                #    pesos[i].append(pesosiniciales[i])
+                #pesosiniciales[i]=pesosiniciales[i]+delta
+            #iter+=1
+            #if iter==10000:
+            #    break
+    for var in range(4):    
         print(f"e1={e1[var]}\n")
         print(f"e2={e2[var]}\n")
         print(f"sd={sd[var]}\n")
         print(f"Iteraciones: {iter}\n")
         print(f"Salida real: {sr}\n")
         print(f"Error: {E}")
-    
+
     print(len(pesos[0]))
 
     iteraciones=[]
@@ -261,11 +288,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
