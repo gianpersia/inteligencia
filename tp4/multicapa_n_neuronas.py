@@ -1,290 +1,111 @@
+import random
 import math
 import matplotlib.pyplot as plt
-import random
 
-##comentado tenemos la logica de este perceptron con back propagation
-"""def perceptron_multicapa(xor, comb):
-        #pesos primera
-        w0=0.9
-        w1=0.7
-        w2=0.5
-        #pesos segunda
-        w3=0.3
-        w4=-0.9
-        w5=-1
-        #pesos tercera
-        w6=0.8
-        w7=0.35
-        w8=0.1
-        #pesos cuarta
-        w9=-0.23
-        w10=-0.79
-        w11=0.56
-        w12=0.6
-        #entradas
-        e0=1
-        e1=0
-        e2=0
-        #salida deseada
-        sd=0
 
-        #PRIMER NEURONA
-        #sumatoria primer neurona
-        x1=(w0*e0) + (w1*e1) + (w2*e2)
-        s1=1/(1+e**(-x1))
-        print("s1: ", s1)
-
-        #SEGUNDA NEURONA
-        #sumatoria SEGUNDA neurona
-        x2=(w3*e0) + (w4*e1) + (w5*e2)
-        s2=1/(1+e**(-x2))
-        print("s2: ", s2)
-
-        #TERCER NEURONA
-        #sumatoria TERCER neurona
-        x3=(w6*e0) + (w7*e1) + (w8*e2)
-        s3=1/(1+e**(-x3))
-        print("s3: ", s3)
-
-        #CUARTA NEURONA
-        #sumatoria CUARTA neurona
-        x4=(w10*s1) + (w11*s2) + (w12*s3) + (w9*e0)
-        sr=1/(1+e**(-x4))
-        print("Salida real: ", sr)
-
-        E=sd-sr
-        print("E: ", E)
-
-        df=sr*(1-sr)*E
-        print("df: ", df)
-        print("\n")
-
-        #learning rate
-        lr=0.1
-
-        #back propagation
-        print("BACK PROPAGATION\n")
-        dw9=lr*e0*df
-        w9n=dw9+w9
-        print("dw9: ", dw9)
-        #print("w9: ", w9n)
-        dw10=lr*s1*df
-        w10n=dw10+w10
-        print("dw10: ", dw10)
-        #print("w10: ", w10n)
-        dw11=lr*s2*df
-        w11n=dw11+w11
-        print("dw11: ", dw11)
-        #print("w11: ", w11n)
-        dw12=lr*s3*df
-        w12n=dw12+w12
-        print("dw12: ", dw12)
-        #print("w12: ", w12n)
-
-        doc1=s1*(1-s1)*df
-        Dwoc1=lr*e0*doc1
-        Dw0=Dwoc1
-        Dw1=lr*e1*doc1
-        Dw2=lr*e2*doc1
-        print("Dw0: ", Dw0)
-        print("Dw1: ", Dw1)
-        print("Dw2: ", Dw2)
-        w0n=Dw0+w0
-        w1n=Dw1+w1
-        w2n=Dw2+w2
-        #print("w0: ", w0n)
-        #print("w1: ", w1n)
-        #print("w2: ", w2n)
-
-        doc2=s2*(1-s2)*df
-        Dwoc2=lr*e0*doc2
-        Dw3=Dwoc2
-        Dw4=lr*e1*doc2
-        Dw5=lr*e2*doc2
-        print("Dw3: ", Dw0)
-        print("Dw4: ", Dw1)
-        print("Dw5: ", Dw2)
-        print("\n")
-        w3n=Dw3+w3
-        w4n=Dw4+w4
-        w5n=Dw5+w5
-        #print("w3: ", w3n)
-        #print("w4: ", w4n)
-        #print("w5: ", w5n)
-
-        doc3=s3*(1-s3)*df
-        Dwoc3=lr*e0*doc3
-        Dw6=Dwoc2
-        Dw7=lr*e1*doc3
-        Dw8=lr*e2*doc3
-        #print("Dw6: ", Dw6)
-        #print("Dw7: ", Dw7)
-        #print("Dw8: ", Dw8)
-        w6n=Dw6+w6
-        w7n=Dw7+w7
-        w8n=Dw8+w8
-        #print("w6: ", w6n)
-        #print("w7: ", w7n)
-        #print("w8: ", w8n)
-        print("NUEVOS PESOS:")
-        print("--------------")
-        print("w9: ", w9n)
-        print("w10: ", w10n)
-        print("w11: ", w11n)
-        print("w12: ", w12n)
-        print("w0: ", w0n)
-        print("w1: ", w1n)
-        print("w2: ", w2n)
-        print("w3: ", w3n)
-        print("w4: ", w4n)
-        print("w5: ", w5n)
-        print("w6: ", w6n)
-        print("w7: ", w7n)
-        print("w8: ", w8n)
-        print("--------------")"""
-
-def mathide(neuronas, entradas, wpeso, outs):
-    for n in range(neuronas):
-        x=xmath(entradas, wpeso)
-        sr=srmath(x)
-        outs.append(sr)
-
-def xmath(entradas, wpeso):
-    x=0
-    for ins in entradas:
-        x+=ins*wpeso[0]
-    return x
-
-def srmath(x):
-    sr=1/(1+math.exp(-x))
-    return sr
-
-def Emath(sd, sr):
-    E=sd-sr
-    return E
-
-def dmath(sr, E):
-    df=sr*(1-sr)*E
-    return df
-
-def menu(e1, e2, sd, vias, pesosi, neuronas):
-    print(f"vias={vias}\n")
-    print(f"Neuronas={neuronas}\n")
-    print("Pesos sinopticos: ")
-    for i, peso in enumerate(pesosi):
-        print(f"{i}={peso}")
-
-def main():
-    #defino listas, variables
-    e1 = [0, 0, 1, 1]
-    e2 = [0, 1, 0, 1]
-    sd = [0, 1, 1, 0]
-    vias=1
-    #lr=0.1
-    neuronas=int(input("Neuronas deseadas: "))
-    pesos=math.trunc((neuronas*13)/3)
-    es = [[],[],[],[]]
-    #pesos=[[], [], [], [], [], [], [], [], [], [], [], [], []]
-    pesosi=[]
-    for i in range(pesos):
-        pesosi.append(random.uniform(1,-1))
-
-    #defino el bucle para poder iterar
-    #for var in range (4):
-        #pesos definidos en clase
-        #pesosiniciales = [0.9, 0.7, 0.5, 0.3, -0.9, -1, 0.8, 0.35, 0.1, -0.23, -0.79, 0.56, 0.6]
-    pesosl=[]
-        
-    for i in range(pesos):
-        pesosl.append([+])
-        
-    menu(e1,e2,sd,vias,pesosi,neuronas)
-
-    lr=float(input("Learning rate deseado: "))
-    iteracionesl=int(input("Iteraciones deseadas: "))
-    iteracionestotales = 0
-    outsr=sd()
-
-    while True:
-        iteracionestotales+=1
-        for i, peso in enumerate(pesosi):
-            pesosl[i].append(peso)
-        for var in range(4):
-            entradas=[vias, e1[var], e2[var]]
-            outs=[]
-            dwf=[]
-            d=[]
-            dwoc=[]
-            mathide(neuronas, entradas, pesosi, outs)
-            entradas=[vias]
-            for varios in outs:
-                entradas.append(varios)
-            x=xmath(entradas, pesosi)
-            sr=srmath(x)
-            E=Emath(sd[var], sr)
-            es[var].append(E)
-            outsr[var]=sr
-            #if var==0:
-            #    es1.append(E)
-            #elif var==1:
-            #    es2.append(E)
-            #elif var==2:
-            #    es3.append(E)
-            #elif var==3:
-            #    es4.append(E)
-            df=dmath(sr, E)
-            for ins in entradas:
-                dw=lr*ins*df
-                dwf.append(dw)
-            for sr in outs:
-                dwoc.append(sr*(1-sr)*E)
-            entradas=[vias, e1[var], e2[var]]
-            for doc in dwoc:
-                for ins in entradas:
-                    d.append(lr*ins*doc)
-            for varios in dwf:
-                d.append(varios)
-            for i, delta in enumerate(d):
-                pesosi[i]=pesosi[i] + delta
-                #if len(pesos[i])<10000:
-                #    pesos[i].append(pesosiniciales[i])
-                #pesosiniciales[i]=pesosiniciales[i]+delta
-            #iter+=1
-            #if iter==10000:
-            #    break
-    for var in range(4):    
-        print(f"e1={e1[var]}\n")
-        print(f"e2={e2[var]}\n")
-        print(f"sd={sd[var]}\n")
-        print(f"Iteraciones: {iter}\n")
-        print(f"Salida real: {sr}\n")
-        print(f"Error: {E}")
-
-    print(len(pesos[0]))
-
-    iteraciones=[]
-    for i in range(10000):
-        iteraciones.append(i)
-    
-    #while True:
-    plt.figure(figsize=(15,5))
-    plt.subplot(1, 2, 1)
+def graficar(limite_iteraciones, errores):
+    lista_iteraciones = []
+    for i in range(limite_iteraciones):
+        lista_iteraciones.append(i)
     plt.xlabel("Iteraciones")
     plt.ylabel("Errores")
     plt.title("GRÁFICO DE ERRORES")
-    plt.axhline(y=0, color='green', linestyle='-')
-    plt.plot(iteraciones, es1)
-    plt.plot(iteraciones, es2)
-    plt.plot(iteraciones, es3)
-    plt.plot(iteraciones, es4)
-    plt.subplot(1, 2, 2)
-    plt.xlabel("Iteraciones")
-    plt.ylabel("Pesos")
-    plt.title("GRÁFICO DE PESOS")
-    plt.axhline(y=0, color='green', linestyle='-')
-    for varios in pesos:
-        plt.plot(iteraciones, varios)
+    plt.axhline(y=0, color='black', linestyle='-')
+    for cont in range(4):
+        plt.plot(lista_iteraciones, errores[cont], label=f"error{cont}")
+    plt.legend()
     plt.show()
+
+
+def main():
+
+    e1 = [0, 0, 1, 1]
+    e2 = [0, 1, 0, 1]
+    sd = [0, 1, 1, 0]
+
+    bias = 1
+
+    neuronas_ocultas = int(input("Ingrese la cantidad de neuronas en capa oculta: "))
+    cantidad_pesos = math.trunc((neuronas_ocultas * 13)/3)
+
+    errores = [[], [], [], []]
+    
+    pesos = [random.uniform(1,-1) for _ in range(cantidad_pesos)]
+
+    lista_pesos = [[] for _ in range(cantidad_pesos)]
+
+    learning_rate = float(input("Ingrese el learning rate: "))
+
+    limite_iteraciones = int(input("Ingrese la cantidad de iteraciones a realizar: "))
+
+    iteraciones = 0
+
+    salidas_reales = sd.copy()
+
+    while True:
+
+        copia_pesos = pesos.copy()
+
+        iteraciones += 1
+
+        for i, peso in enumerate(pesos):
+            lista_pesos[i].append(peso)
+
+        for cont in range(4):
+
+            copia_pesos = pesos.copy()
+
+            entradas = [bias, e1[cont], e2[cont]]
+            salidas = [] 
+            deltas = []
+
+            for _ in range(neuronas_ocultas):
+                x = 0
+                for entrada in entradas:
+                    x += entrada*copia_pesos[0]
+                    copia_pesos.remove(copia_pesos[0])
+                y = 1/(1 + math.exp(-x))
+                salidas.append(y)
+
+            entradas = [bias]
+            for element in salidas:
+                entradas.append(element)
+
+            x = 0
+            for entrada in entradas:
+                x += entrada*copia_pesos[0]
+                copia_pesos.remove(copia_pesos[0])
+            y = 1/(1 + math.exp(-x))
+
+            error = sd[cont] - y
+            errores[cont].append(error)
+            salidas_reales[cont] = y
+
+            d_f = y * (1 - y) * error
+
+            dwf = [learning_rate * entrada * d_f for entrada in entradas]
+
+            d_o = [salida * (1 - salida) * d_f for salida in salidas]
+
+            entradas = [bias, e1[cont], e2[cont]]
+            for d in d_o:
+                for entrada in entradas:
+                    deltas.append(learning_rate * entrada * d)
+
+            deltas.extend(dwf)
+
+            for i, delta in enumerate(deltas):
+                pesos[i] = pesos[i] + delta
+            
+        if iteraciones == limite_iteraciones:
+            break
+    
+    for cont in range(4):
+        print(f"Para e1={e1[cont]} y e2={e2[cont]}: salida real={salidas_reales[cont]} / error={errores[cont][-1]} despues de {limite_iteraciones} iteraciones.")
+    
+
+    graficar(limite_iteraciones, errores)    
+
 
 if __name__ == '__main__':
     main()
